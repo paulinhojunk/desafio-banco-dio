@@ -31,14 +31,19 @@ public abstract class Conta implements IConta {
     }
 
     @Override
-    public void sacar(double valor) {
+    public void sacar(double valor) throws  SaldoInsuficienteException {
+        if(valor > saldo){
+            throw new SaldoInsuficienteException("Saldo insuficiente para realizar o saque");
+        }
         this.saldo -= valor;
 
     }
 
     @Override
     public void depositar(double valor) {
-        this.saldo += valor;
+        if(valor > 0) {
+            this.saldo += valor;
+        }
 
     }
 
@@ -48,6 +53,7 @@ public abstract class Conta implements IConta {
         contaDestino.depositar(valor);
 
     }
+
     protected void ImprimirInfoComuns() {
         System.out.println(String.format("Cliente: %s", this.cliente.getNome()));
         System.out.println(String.format("Agencia: %d", this.agencia));
